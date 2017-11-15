@@ -1,0 +1,9 @@
+﻿{
+   javascript: [
+      '~/app_plugins/Gavlar50.Umbraco.ImageTracker/dirPagination.js',
+      '~/app_plugins/Gavlar50.Umbraco.ImageTracker/imagetracker.controller.js'
+   ],
+   css: [
+      '~/app_plugins/Gavlar50.Umbraco.ImageTracker/imagetracker.css'
+   ]
+}

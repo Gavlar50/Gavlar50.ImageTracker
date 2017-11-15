@@ -1,0 +1,98 @@
+﻿<div class="tracker-container" ng-controller="Gavlar50.ImageTrackerController">
+    <div class="tracker-img">
+        <form class="form-search -no-margin-bottom pull-right" ng-show="tableActive" novalidate>
+            <div class="inner-addon left-addon">
+                <i class="icon icon-search" ng-click="enterSearch($event)"></i>
+                <input class="form-control search-input" type="text" placeholder="Type to filter..." ng-model="search" prevent-enter-submit="true" no-dirty-check="true">
+            </div>
+        </form>
+
+        <img ng-src="{{Url}}" />
+        <a href="#" class="add-link" ng-click="imageSelector()" prevent-default title="Select an image">
+            <i class="icon icon-umb-media large"></i>
+        </a>
+        <button class="btn {{btnUsageActive ? 'btn-success' : 'btn-info'}}" ng-disabled="btnDisabled" ng-click="usages(Id)">Usages</button>
+        <button class="btn {{btnAllActive ? 'btn-success' : 'btn-info'}}" ng-click="everything()">Everything</button>
+        <button class="btn {{btnUnusedActive ? 'btn-success' : 'btn-info'}}" ng-click="unused()">Unused</button>
+        <button class="btn btn-info" ng-disabled="!tableActive" ng-click="export()">Export</button>
+    </div>
+
+    <div class="form-horizontal tracker tracker-hidden">
+        <div class="control-group umb-control-group tracker-control-group">
+            <div class="umb-el-wrap">
+                <label class="control-label">Id</label>
+                <label class="control-label">Name</label>
+                <label class="control-label">Bytes</label>
+                <label class="control-label">Width</label>
+                <label class="control-label">Height</label>
+            </div>
+        </div>
+        <div class="control-group umb-control-group tracker-control-group">
+            <div class="umb-el-wrap">
+                <label class="control-label tracker">{{Id}}</label>
+                <label class="control-label tracker">{{Filename}}</label>
+                <label class="control-label tracker">{{Bytes}}</label>
+                <label class="control-label tracker">{{Width}}</label>
+                <label class="control-label tracker">{{Height}}</label>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div id="results-table">
+        <table class="table table-hover" ng-show="tableActive">
+            <thead>
+                <tr>
+                    <th ng-click="sort('PageId')" ng-show="Columns.PageId">
+                        Page Id
+                        <span class="icon-navigation-up" ng-show="sortKey=='PageId'" ng-class="{'icon-navigation-down':reverse,'icon-navigation-up':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('Page')" ng-show="Columns.PageId">
+                        Page
+                        <span class="icon-navigation-up" ng-show="sortKey=='Page'" ng-class="{'icon-navigation-down':reverse,'icon-navigation-up':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('Property')" ng-show="Columns.Property">
+                        Property
+                        <span class="icon-navigation-up" ng-show="sortKey=='Property'" ng-class="{'icon-navigation-down':reverse,'icon-navigation-up':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('Image')" ng-show="Columns.Image">
+                        Image
+                        <span class="icon-navigation-up" ng-show="sortKey=='Image'" ng-class="{'icon-navigation-down':reverse,'icon-navigation-up':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('Size')" ng-show="Columns.Size">
+                        Size (bytes)
+                        <span class="icon-navigation-up" ng-show="sortKey=='Size'" ng-class="{'icon-navigation-down':reverse,'icon-navigation-up':!reverse}"></span>
+                    </th>
+                    <th ng-click="sort('Location')" ng-show="Columns.Location">
+                        Location
+                        <span class="icon-navigation-up" ng-show="sortKey=='Location'" ng-class="{'icon-navigation-down':reverse,'icon-navigation-up':!reverse}"></span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr dir-paginate="result in results|orderBy:sortKey:reverse|filter:search|itemsPerPage:pageSize track by $index">
+                    <td ng-show="Columns.PageId">{{result.PageId}}</td>
+                    <td ng-show="Columns.Page"><a href="{{result.PageUrl}}" target="_blank">{{result.Page}}</a></td>
+                    <td ng-show="Columns.Property">{{result.Property}}</td>
+                    <td ng-show="Columns.Image"><a href="{{result.ImageUrl}}" target="_blank">{{result.Image}}</a></td>
+                    <td ng-show="Columns.Size">{{result.Size}}</td>
+                    <td ng-show="Columns.Location">{{result.Location}}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="page-controls pull-right">
+                            <button class="btn" ng-class="{bactive: pageSize == 10}" ng-click="setTablePages(10)">10</button>
+                            <button class="btn" ng-class="{bactive: pageSize == 20}" ng-click="setTablePages(20)">20</button>
+                            <button class="btn" ng-class="{bactive: pageSize == 30}" ng-click="setTablePages(30)">30</button>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <dir-pagination-controls max-size="10"
+                                 direction-links="true"
+                                 boundary-links="true">
+        </dir-pagination-controls>
+    </div>
+</div>
